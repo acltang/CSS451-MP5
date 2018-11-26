@@ -27,18 +27,16 @@ public partial class MainController : MonoBehaviour
     {
         axis = (VertexAxisFrame)FindObjectOfType(typeof(VertexAxisFrame));
         MainCamera.transform.LookAt(Target);
-        if (Input.GetKey(KeyCode.LeftControl)) {
-            CheckMouseClick();
-            CheckMouseHold();
-        }
-        else {
-            if (axis) {
-                axis.AxisDeselected();
+        if (!Input.GetKey(KeyCode.LeftAlt)) {
+            if (Input.GetKey(KeyCode.LeftControl)) {
+                CheckMouseClick();
+                CheckMouseHold();
             }
-        }
-
-        if (Input.GetKey(KeyCode.LeftAlt)) {
-            CheckMouseCamera();
+            else {
+                if (axis) {
+                    axis.AxisDeselected();
+                }
+            }
         }
     }
 
