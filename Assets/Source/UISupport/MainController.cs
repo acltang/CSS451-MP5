@@ -29,12 +29,16 @@ public partial class MainController : MonoBehaviour
         MainCamera.transform.LookAt(Target);
         if (!Input.GetKey(KeyCode.LeftAlt)) {
             if (Input.GetKey(KeyCode.LeftControl)) {
+                MyMesh.Show();
                 CheckMouseClick();
                 CheckMouseHold();
             }
             else {
                 if (axis) {
                     axis.AxisDeselected();
+                }
+                else {
+                    MyMesh.Hide();
                 }
             }
         }

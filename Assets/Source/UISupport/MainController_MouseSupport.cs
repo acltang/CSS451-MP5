@@ -19,6 +19,11 @@ public partial class MainController : MonoBehaviour {
             {
                 MyMesh.SelectVertex(hitInfo.transform.gameObject);
             }
+            else {
+                if (axis) {
+                    DestroyImmediate(axis.gameObject);
+                }
+            }
         }
     }
 

@@ -8,17 +8,21 @@ public partial class MyMesh : MonoBehaviour {
     GameObject axis = null;
 
     public GameObject mSelected = null;
+    public int mSelectedIndex;
 
     public void InitControllers(Vector3[] v)
     {
         mControllers = new GameObject[v.Length];
         for (int i = 0; i < v.Length; i++ )
         {
-            mControllers[i] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            mControllers[i] = sphere;
             mControllers[i].transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
             mControllers[i].transform.localPosition = v[i];
             mControllers[i].transform.parent = this.transform;
+
+            sphere.SetActive(false);
         }
     }
 
@@ -32,30 +36,24 @@ public partial class MyMesh : MonoBehaviour {
                 sphere.GetComponent<Renderer>().material.color = Color.black;
                 sphere.name = "Node";
             }
+            else {
+                sphere.name = "Sphere" + i;
+            }
             mControllers[i] = sphere;
             mControllers[i].transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
             mControllers[i].transform.localPosition = v[i];
             mControllers[i].transform.parent = this.transform;
+            sphere.SetActive(false);
         }
     }
 
     public void SelectVertex(GameObject obj) {
-        if (obj.name.Equals("Sphere")) {
+        if (obj.name.Contains("Sphere")) {
             mSelected = obj;
+            int.TryParse(obj.name.Substring(7), out mSelectedIndex);
             if (axis) {
-                Destroy(axis);
-            }
-            axis = Instantiate(Resources.Load("VertexAxisFrame")) as GameObject;
-            axis.transform.localPosition = obj.transform.localPosition;
-        }
-    }
-
-    public void SelectCylinderVertex(GameObject obj) {
-        if (obj.name.Equals("Sphere")) {
-            mSelected = obj;
-            if (axis) {
-                Destroy(axis);
+                Destroy(axis.gameObject);
             }
             axis = Instantiate(Resources.Load("VertexAxisFrame")) as GameObject;
             axis.transform.localPosition = obj.transform.localPosition;

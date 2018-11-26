@@ -13,7 +13,7 @@ public partial class MyMesh : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        InitializeMesh();
+        InitializeMesh(resolution);
         GenerateMesh();
     }
 
@@ -33,13 +33,13 @@ public partial class MyMesh : MonoBehaviour {
         theMesh.normals = n;
 	}
 
-    public void InitializeMesh() {
+    public void InitializeMesh(int res) {
         theMesh = GetComponent<MeshFilter>().mesh;   // get the mesh component
         theMesh.Clear();    // delete whatever is there!!
-        v = new Vector3[(resolution * resolution)];   // 2x2 mesh needs 3x3 vertices
-        t = new int[(resolution - 1)*(resolution - 1)*2*3];         // Number of triangles: 2x2 mesh and 2x triangles on each mesh-unit
-        n = new Vector3[(resolution * resolution)];   // MUST be the same as number of vertices
-        uv = new Vector2[(resolution * resolution)];
+        v = new Vector3[(res * res)];   // 2x2 mesh needs 3x3 vertices
+        t = new int[(res - 1)*(res - 1)*2*3];         // Number of triangles: 2x2 mesh and 2x triangles on each mesh-unit
+        n = new Vector3[(res * res)];   // MUST be the same as number of vertices
+        uv = new Vector2[(res * res)];
     }
 
     void GenerateMesh() {
@@ -95,5 +95,25 @@ public partial class MyMesh : MonoBehaviour {
 
         InitControllers(v);
         InitNormals(v, n);
+    }
+
+    public void Show() {
+        for (int i = 0; i < mControllers.Length; i++) {
+            mControllers[i].SetActive(true);
+        }
+
+        for (int i = 0; i < mNormals.Length; i++) {
+            mNormals[i].gameObject.SetActive(true);
+        }
+    }
+
+    public void Hide() {
+        for (int i = 0; i < mControllers.Length; i++) {
+            mControllers[i].SetActive(false);
+        }
+
+        for (int i = 0; i < mNormals.Length; i++) {
+            mNormals[i].gameObject.SetActive(false);
+        }
     }
 }

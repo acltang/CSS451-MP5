@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class CylinderMesh : MyMesh {
 
-	int cResolution = 10;
+	public int cResolution = 10;
 
 	float degrees = 250f;
 	private float rotation;
 
-	Vector2 size;
-
     // Use this for initialization
     void Start () {
 		rotation = degrees * Mathf.Deg2Rad;
-		InitializeCylinderMesh();
-		size = new Vector2(1, 2);
+		InitializeMesh(cResolution);
 		GenerateCylinder();
     }
 
@@ -36,23 +33,14 @@ public class CylinderMesh : MyMesh {
         theMesh.normals = n;
 	}
 
-	public void InitializeCylinderMesh() {
-        theMesh = GetComponent<MeshFilter>().mesh;   // get the mesh component
-        theMesh.Clear();    // delete whatever is there!!
-        v = new Vector3[(cResolution * cResolution)];   // 2x2 mesh needs 3x3 vertices
-        t = new int[(cResolution - 1)*(cResolution - 1)*2*3];         // Number of triangles: 2x2 mesh and 2x triangles on each mesh-unit
-        n = new Vector3[(cResolution * cResolution)];   // MUST be the same as number of vertices
-        uv = new Vector2[(cResolution * cResolution)];
-    }
-
 	void GenerateCylinder() {
 		int vertex = 0;
         for (int i = 0; i < cResolution; i++)
         {
 			for (int j = 0; j < cResolution; j++) {
-				v[vertex] = new Vector3(0, size.y * i / (float)cResolution, 0);
-				v[vertex].x = size.x * 0.5f * Mathf.Cos(j * rotation / cResolution);
-				v[vertex].z = size.x * 0.5f * Mathf.Sin(j * rotation / cResolution);
+				v[vertex] = new Vector3(0, 2.0f * i / (float)cResolution, 0);
+				v[vertex].x = 0.5f * Mathf.Cos(j * rotation / cResolution);
+				v[vertex].z = 0.5f * Mathf.Sin(j * rotation / cResolution);
 
 				int p = 0;
         		int squarenumber = 0;
