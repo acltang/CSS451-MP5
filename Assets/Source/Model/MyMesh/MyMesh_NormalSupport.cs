@@ -33,27 +33,51 @@ public partial class MyMesh : MonoBehaviour {
         return Vector3.Cross(a, b).normalized;
     }
 
-    void ComputeNormals(Vector3[] v, Vector3[] n)
+    void ComputeNormals(Vector3[] v, Vector3[] n, int resolution)
     {
-        Vector3[] triNormal = new Vector3[8];
-        triNormal[0] = FaceNormal(v, 3, 4, 0);
-        triNormal[1] = FaceNormal(v, 0, 4, 1);
-        triNormal[2] = FaceNormal(v, 4, 5, 1);
-        triNormal[3] = FaceNormal(v, 1, 5, 2);
-        triNormal[4] = FaceNormal(v, 6, 7, 3);
-        triNormal[5] = FaceNormal(v, 3, 7, 4);
-        triNormal[6] = FaceNormal(v, 7, 8, 4);
-        triNormal[7] = FaceNormal(v, 4, 8, 5);
+          Vector3[] triNormal = new Vector3[(resolution - 1) * (resolution - 1) * 2];
+          Vector3[] verticies = new Vector3[(resolution - 1) * (resolution - 1) * 2];
+          int p = 0;
+          int squarenumber = 0;
+          for (int i = 0; i < triNormal.Length; i += 2)
+          {
+              triNormal[i] = FaceNormal(v, 0 + p, resolution + p, resolution + 1 + p);
+              triNormal[i + 1] = FaceNormal(v, 0 + p, resolution + 1 + p, 1 + p);
+              verticies[i].x = 0 + p;
+              verticies[i].y = resolution + p;
+              verticies[i].z = resolution + 1 + p;
+              verticies[i + 1].x = 0 + p;
+              verticies[i + 1].y = resolution + 1 + p;
+              verticies[i + 1].z = 1 + p;
+              p++;
+              squarenumber++;
+              if (squarenumber == resolution - 1)
+              {
+                  p++;
+                  squarenumber = 0;
+              }
+          }
 
-        n[0] = (triNormal[0] + triNormal[1]).normalized;
-        n[1] = (triNormal[1] + triNormal[2] + triNormal[3]).normalized;
-        n[2] = triNormal[3].normalized;
-        n[3] = (triNormal[0] + triNormal[4] + triNormal[5]).normalized;
-        n[4] = (triNormal[0] + triNormal[1] + triNormal[2] + triNormal[5] + triNormal[6] + triNormal[7]).normalized;
-        n[5] = (triNormal[2] + triNormal[3]).normalized;
-        n[6] = triNormal[4].normalized;
-        n[7] = (triNormal[4] + triNormal[5] + triNormal[6]).normalized;
-        n[8] = (triNormal[6] + triNormal[7]).normalized;
+          //run through each triangle and if the vertice is in that triangle add it to be normalized
+          for (int i = 0; i < resolution * resolution; i++)
+          {
+              for(int j = 0; j < verticies.Length; j++)
+              {
+                  if(verticies[j].x == i)
+                  {
+                      n[i] = (triNormal[j] + n[i]).normalized;
+                  }
+                  if (verticies[j].y == i)
+                  {
+                      n[i] = (triNormal[j] + n[i]).normalized;
+                  }
+                  if (verticies[j].z == i)
+                  {
+                      n[i] = (triNormal[j] + n[i]).normalized;
+                  }
+              }
+          }
         UpdateNormals(v, n);
+           
     }
 }
