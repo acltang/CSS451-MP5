@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public partial class MyMesh : MonoBehaviour {
-    int resolution = 10;
+    public int resolution = 2;
 
     protected Mesh theMesh;
 	protected Vector3[] v;
@@ -14,7 +14,7 @@ public partial class MyMesh : MonoBehaviour {
     // Use this for initialization
     void Start () {
         InitializeMesh(resolution);
-        GenerateMesh();
+        UpdateResolution();
     }
 
     // Update is called once per frame
@@ -42,7 +42,12 @@ public partial class MyMesh : MonoBehaviour {
         uv = new Vector2[(res * res)];
     }
 
-    void GenerateMesh() {
+    public void UpdateResolution() {
+        foreach (Transform child in transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        InitializeMesh(resolution);
         float x = -1;
         float y = -1;
         for(int i = 0; i < (resolution * resolution); i++)
