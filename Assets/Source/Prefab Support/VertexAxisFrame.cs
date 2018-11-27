@@ -7,6 +7,7 @@ public class VertexAxisFrame : MonoBehaviour {
 	public MyMesh MyMesh = null;
 	public CylinderMesh cMesh = null;
 	public GameObject Vertex = null;
+	public MainController MainController = null;
 
 	public GameObject X = null;
 	public GameObject Y = null;
@@ -26,6 +27,7 @@ public class VertexAxisFrame : MonoBehaviour {
 		MyMesh = (MyMesh)FindObjectOfType(typeof(MyMesh));
 		cMesh = (CylinderMesh)FindObjectOfType(typeof(CylinderMesh));
 		Vertex = MyMesh.mSelected;
+		MainController = (MainController)FindObjectOfType(typeof(MainController));
 	}
 	
 	public void AxisSelected(GameObject obj, Ray ray) {
@@ -36,22 +38,34 @@ public class VertexAxisFrame : MonoBehaviour {
 			XSelected = true;
 			previous = obj;
 			X.GetComponent<Renderer>().material.color = Color.yellow;
-			//MoveVertexX(ray);
-			MoveCylinderVertexX(ray);			
+			if (MainController.MeshActive) {
+				MoveVertexX(ray);
+			}
+			else {
+				MoveCylinderVertexX(ray);			
+			}
 		}
 		else if (obj.name.Equals("Y-Axis") && !XSelected && !ZSelected) {
 			YSelected = true;
 			previous = obj;
 			Y.GetComponent<Renderer>().material.color = Color.yellow;
-			//MoveVertexY(ray); 
-			MoveCylinderVertexY(ray);
+			if (MainController.MeshActive) {
+				MoveVertexY(ray);
+			}
+			else {
+				MoveCylinderVertexY(ray);			
+			}
 		}
 		else if (obj.name.Equals("Z-Axis") && !XSelected && !YSelected) {
 			ZSelected = true;
 			previous = obj;
 			Z.GetComponent<Renderer>().material.color = Color.yellow; 
-			//MoveVertexZ(ray);
-			MoveCylinderVertexZ(ray);
+			if (MainController.MeshActive) {
+				MoveVertexZ(ray);
+			}
+			else {
+				MoveCylinderVertexZ(ray);			
+			}
 		}
 	}
 

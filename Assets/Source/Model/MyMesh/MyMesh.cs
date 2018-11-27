@@ -61,9 +61,17 @@ public partial class MyMesh : MonoBehaviour {
             x += (2 / ((float)resolution - 1));
         }
 
-        for (int i = 0; i < uv.Length; i++)
+        float x2 = 0;
+        float y2 = 0;
+        for (int i = 0; i < (resolution * resolution); i++)
         {
-            uv[i] = new Vector2(v[i].x, v[i].z);
+            if (x2 > 1)
+            {
+                y2 += (1 / ((float)resolution - 1));
+                x2 = 0;
+            }
+            uv[i] = new Vector2(x2, y2);
+            x2 += (1 / ((float)resolution - 1));
         }
 
         for (int i = 0; i < (resolution * resolution); i++)

@@ -51,7 +51,10 @@ public partial class MyMesh : MonoBehaviour {
     public void SelectVertex(GameObject obj) {
         if (obj.name.Contains("Sphere")) {
             mSelected = obj;
-            int.TryParse(obj.name.Substring(7), out mSelectedIndex);
+            int number;
+            int.TryParse(obj.name.Substring(6), out number);
+            mSelectedIndex = number;
+            Debug.Log(mSelectedIndex);
             if (axis) {
                 Destroy(axis.gameObject);
             }

@@ -6,7 +6,7 @@ public class CylinderMesh : MyMesh {
 
 	public int cResolution = 10;
 
-	float degrees = 250f;
+	public float degrees = 250f;
 	private float rotation;
 
     // Use this for initialization
@@ -33,7 +33,12 @@ public class CylinderMesh : MyMesh {
         theMesh.normals = n;
 	}
 
-	void GenerateCylinder() {
+	public void GenerateCylinder() {
+        foreach (Transform child in transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        InitializeMesh(cResolution);
 		int vertex = 0;
         for (int i = 0; i < cResolution; i++)
         {
